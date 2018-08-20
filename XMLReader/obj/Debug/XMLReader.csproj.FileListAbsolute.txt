@@ -1,0 +1,7 @@
+C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\bin\Debug\XMLReader.exe.config
+C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\bin\Debug\XMLReader.exe
+C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\bin\Debug\XMLReader.pdb
+C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.csprojAssemblyReference.cache
+C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.csproj.CoreCompileInputs.cache
+C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.exe
+C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.pdb
