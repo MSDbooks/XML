@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,5 +35,23 @@ namespace XMLReader.Models.DTO
             return new XElement(xmlDocument.Name.LocalName, xmlDocument.Elements().Select(el => RemoveAllNamespaces(el)));
         }
 
+        public static string WriteReaderXML(string filename)
+        {
+            string tempfile = Path.GetTempFileName();
+            using (var writer = new StreamWriter(tempfile))
+            using (var reader = new StreamReader(filename))
+            {
+                writer.WriteLine("<?xml version=\"1.0\" encoding=\"UTF - 8\"?>");
+                while (!reader.EndOfStream)
+                    writer.WriteLine(reader.ReadLine());
+            }
+            File.Copy(tempfile, filename, true);
+
+            return tempfile;
+        }
+
     }
+
+   
+
 }
