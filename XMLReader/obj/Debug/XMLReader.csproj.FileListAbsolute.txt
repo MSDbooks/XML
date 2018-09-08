@@ -5,3 +5,13 @@ C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.csp
 C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.csproj.CoreCompileInputs.cache
 C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.exe
 C:\Users\Marcelo Santos\source\repos\LeitorNFe\XMLReader\obj\Debug\XMLReader.pdb
+C:\Source\XML\XMLReader\obj\Debug\XMLReader.csproj.CoreCompileInputs.cache
+C:\Source\XML\XMLReader\bin\Debug\XMLReader.exe.config
+C:\Source\XML\XMLReader\bin\Debug\XMLReader.exe
+C:\Source\XML\XMLReader\bin\Debug\XMLReader.pdb
+C:\Source\XML\XMLReader\bin\Debug\Newtonsoft.Json.dll
+C:\Source\XML\XMLReader\bin\Debug\Newtonsoft.Json.xml
+C:\Source\XML\XMLReader\obj\Debug\XMLReader.csprojAssemblyReference.cache
+C:\Source\XML\XMLReader\obj\Debug\XMLReader.csproj.CopyComplete
+C:\Source\XML\XMLReader\obj\Debug\XMLReader.exe
+C:\Source\XML\XMLReader\obj\Debug\XMLReader.pdb
