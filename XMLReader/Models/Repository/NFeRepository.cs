@@ -16,42 +16,107 @@ namespace XMLReader.Models.Repository
             var query = @"SELECT ID FROM EMITENTE 
                             WHERE CNPJ = @CNPJ";
 
-            var IDCNPJ = GetConnection().Query<int>(query, new { CNPJ = nf.NFe.infNFe.emit.CNPJ }).FirstOrDefault();
-
-            if(IDCNPJ == 0)
+            var idEmitente = GetConnection().Query<int>(query, new { CNPJ = nf.NFe.infNFe.emit.CNPJ }).FirstOrDefault();
+            //se não existir emitente, inclui e retorna o id
+            if (idEmitente == 0)
             {
-                
-               query = @"INSERT INTO  EMITENTE VALUES (
-                              ID = 0, CNPJ = @CNPJ, xNome = @xNome, xFant = @xFant, IE = @IE
+
+                query = @"INSERT INTO  EMITENTE VALUES (
+                              @CNPJ, @xNome, @xFant, @IE
                          )
                          SELECT SCOPE_IDENTITY()";
 
-                var idEmitente = GetConnection().Query<int>(query, new
+                idEmitente = GetConnection().Query<int>(query, new
                 {
                     CNPJ = nf.NFe.infNFe.emit.CNPJ,
                     xNome = nf.NFe.infNFe.emit.xNome,
                     xFant = nf.NFe.infNFe.emit.xFant,
                     IE = nf.NFe.infNFe.emit.IE
-                }).FirstOrDefault();
+                })
+                .FirstOrDefault();
+            }
 
 
-                if(idEmitente != 0)
+            if(idEmitente != 0)
+            {
+
+                query = @"INSERT INTO  IDENTIFICACAO_nfe VALUES (
+                             @cUF, @cNF, @natOp, @nNF, @dhEmi, @EMITENTE
+                         )
+                         SELECT SCOPE_IDENTITY()";
+
+                var idIdentificacaoNFe = GetConnection().Query<int>(query, new
                 {
-                    DTO.IDENTIFICACAO_nfe identificacaoNFe = new DTO.IDENTIFICACAO_nfe
+                    cUF = int.Parse(nf.NFe.infNFe.emit.CNPJ),
+                    cNF = nf.NFe.infNFe.emit.xNome,
+                    natOp = nf.NFe.infNFe.emit.xFant,
+                    nNF = int.Parse(nf.NFe.infNFe.emit.IE),
+                    dhEmi = new DateTime(),
+                    EMITENTE = idEmitente
+
+                })
+                .FirstOrDefault();
+
+
+                if (idIdentificacaoNFe != 0)
+                {
+
+                    query = @"INSERT INTO  PRODUTO VALUES (
+                             @cProd,
+                             @cEAN,
+                             @xProd,
+                             @NCM,
+                             @CEST,
+                             @CFOP,
+                             @uCom,
+                             @qCom,
+                             @vUnCom,
+                             @vProd,
+                             @cEANTrib,
+                             @uTrib,
+                             @qTrib,
+                             @vUnTrib,
+                             @indTot,
+                             @IDENTIFICACAO_nfe
+                         )";
+                       
+
+                    nf.NFe.infNFe.det.ForEach(item =>
                     {
-                        ID = 0,
-                        cUF = nf.NFe.infNFe.emit.CNPJ,
-                        cNF = nf.NFe.infNFe.emit.xNome,
-                        natOp = nf.NFe.infNFe.emit.xFant,
-                        nNF = nf.NFe.infNFe.emit.IE,
-                        dhEmi = new DateTime(),
-                        EMITENTE = idEmitente
-                    };
+
+                        GetConnection().Query(query, new
+                        {
+                            cProd = item.prod.cProd,
+                            cEAN = item.prod.cEAN,
+                            xProd = item.prod.xProd,
+                            NCM = item.prod.NCM,
+                            CEST = item.prod.CEST,
+                            CFOP = item.prod.CFOP,
+                            uCom = item.prod.uCom,
+                            vUnCom = item.prod.vUnCom,
+                            vProd = item.prod.vProd,
+                            cEANTrib = item.prod.cEANTrib,
+                            uTrib = item.prod.uTrib,
+                            qTrib = item.prod.qTrib,
+                            vUnTrib = item.prod.vUnTrib,
+                            indTot = item.prod.indTot,
+                            IDENTIFICACAO_nfe = idIdentificacaoNFe
+
+                        });
+                      
+                    });
+
                 }
 
-
-
             }
+            else
+            {
+                // informar erro return null;
+            }
+
+
+
+            
         }
 
     }
