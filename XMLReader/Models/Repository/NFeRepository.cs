@@ -61,6 +61,7 @@ namespace XMLReader.Models.Repository
                 if (idIdentificacaoNFe != 0)
                 {
 
+                    #region QUERY_PRODUTO
                     query = @"INSERT INTO  PRODUTO VALUES (
                              @cProd,
                              @cEAN,
@@ -79,7 +80,7 @@ namespace XMLReader.Models.Repository
                              @indTot,
                              @IDENTIFICACAO_nfe
                          )";
-                       
+                    #endregion
 
                     nf.NFe.infNFe.det.ForEach(item =>
                     {
