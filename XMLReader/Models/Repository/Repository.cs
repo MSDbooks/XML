@@ -15,7 +15,7 @@ namespace XMLReader.Models.Repository
 
         public Repository()
         {
-            strConnection = System.Configuration.ConfigurationManager.ConnectionStrings["LiveRetail"].ConnectionString;
+            strConnection = System.Configuration.ConfigurationManager.ConnectionStrings["NFe"].ConnectionString;
         }
 
         public SqlConnection GetConnection()

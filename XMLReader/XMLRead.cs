@@ -15,8 +15,11 @@ namespace XMLReader
        
         public void DeserializeXML()
         {
-            
-            
+
+            foreach (string file in Directory.EnumerateFiles(@"C:\xml",  "*.xml"))
+            {
+                string contents = File.ReadAllText(file);
+            }
 
             StreamReader streamReader = new StreamReader(@"C:\xml\nfe.xml");
 
@@ -28,6 +31,9 @@ namespace XMLReader
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 
             var nf = (Models.DTO.nfeProc)xmlSerialize.Deserialize(memStream);
+
+            new InsertNFe().Salvar(nf);
+           
 
             Console.ReadLine();
 
