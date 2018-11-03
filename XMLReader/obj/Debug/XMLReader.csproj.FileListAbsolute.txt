@@ -15,3 +15,7 @@ C:\Source\XML\XMLReader\obj\Debug\XMLReader.csprojAssemblyReference.cache
 C:\Source\XML\XMLReader\obj\Debug\XMLReader.csproj.CopyComplete
 C:\Source\XML\XMLReader\obj\Debug\XMLReader.exe
 C:\Source\XML\XMLReader\obj\Debug\XMLReader.pdb
+C:\Source\XML\XMLReader\bin\Debug\Dapper.Contrib.dll
+C:\Source\XML\XMLReader\bin\Debug\Dapper.Contrib.Ext.dll
+C:\Source\XML\XMLReader\bin\Debug\Dapper.dll
+C:\Source\XML\XMLReader\bin\Debug\Dapper.Extension.dll

@@ -16,10 +16,10 @@ namespace XMLReader
         public void DeserializeXML()
         {
 
-            foreach (string file in Directory.EnumerateFiles(@"C:\xml",  "*.xml"))
-            {
-                string contents = File.ReadAllText(file);
-            }
+            //foreach (string file in Directory.EnumerateFiles(@"C:\xml",  "*.xml"))
+            //{
+            //    string contents = File.ReadAllText(file);
+            //}
 
             StreamReader streamReader = new StreamReader(@"C:\xml\nfe.xml");
 

@@ -47,11 +47,11 @@ namespace XMLReader.Models.Repository
 
                 var idIdentificacaoNFe = GetConnection().Query<int>(query, new
                 {
-                    cUF = int.Parse(nf.NFe.infNFe.emit.CNPJ),
+                    cUF = long.Parse(nf.NFe.infNFe.emit.CNPJ),
                     cNF = nf.NFe.infNFe.emit.xNome,
                     natOp = nf.NFe.infNFe.emit.xFant,
-                    nNF = int.Parse(nf.NFe.infNFe.emit.IE),
-                    dhEmi = new DateTime(),
+                    nNF = long.Parse(nf.NFe.infNFe.emit.IE),
+                    dhEmi =DateTime.Now,
                     EMITENTE = idEmitente
 
                 })
@@ -81,7 +81,7 @@ namespace XMLReader.Models.Repository
                              @IDENTIFICACAO_nfe
                          )";
                     #endregion
-
+                    
                     nf.NFe.infNFe.det.ForEach(item =>
                     {
 

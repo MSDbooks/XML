@@ -13,10 +13,10 @@ namespace XMLReader.Models.DTO
 
         [Write(false)]
         public int ID { get; set; }
-        public int cUF { get; set; }
+        public long cUF { get; set; }
         public string cNF { get; set; }
         public string natOp { get; set; }
-        public int nNF { get; set; }
+        public long nNF { get; set; }
         public DateTime dhEmi { get; set; }
         public int EMITENTE { get; set; }
     }
