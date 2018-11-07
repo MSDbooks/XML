@@ -25,12 +25,12 @@ namespace XMLReader
             //remove namespace do xml
             string xml = Models.DTO.Utils.RemoveAllNamespaces(streamReader.ReadToEnd());
 
-            //Convert to json string
+            //Convert xml to json string
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
             string jsonText = JsonConvert.SerializeXmlNode(doc);
 
-            //json string to object 
+            //convert json string to object 
             var obj =JsonConvert.DeserializeObject<Models.DTO.RootObject>(jsonText);
                        
             new InsertNFe().Salvar(obj);

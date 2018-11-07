@@ -11,7 +11,7 @@ namespace XMLReader.Models.Repository
     class NFeRepository : Repository, IRepository
     {
 
-        public void insertNFe(Models.DTO.RootObject nf)
+        public void insertNFe(DTO.RootObject nf)
         {
             int idIdentificacaoNFe;
 
