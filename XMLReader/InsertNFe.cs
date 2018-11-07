@@ -8,7 +8,7 @@ namespace XMLReader
 {
     public class InsertNFe
     {
-        public void Salvar(Models.DTO.nfeProc nf)
+        public void Salvar(Models.DTO.RootObject nf)
         {
             using(var repository = new Models.Repository.NFeRepository())
             {

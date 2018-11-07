@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,24 +18,23 @@ namespace XMLReader
         public void DeserializeXML()
         {
 
-            //foreach (string file in Directory.EnumerateFiles(@"C:\xml",  "*.xml"))
-            //{
-            //    string contents = File.ReadAllText(file);
-            //}
-
+                       
             StreamReader streamReader = new StreamReader(@"C:\xml\nfe.xml");
+
 
             //remove namespace do xml
             string xml = Models.DTO.Utils.RemoveAllNamespaces(streamReader.ReadToEnd());
-            
-            XmlSerializer xmlSerialize = new XmlSerializer(typeof(Models.DTO.nfeProc));
-            //converte string par memory stream
-            MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 
-            var nf = (Models.DTO.nfeProc)xmlSerialize.Deserialize(memStream);
+            //Convert to json string
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            string jsonText = JsonConvert.SerializeXmlNode(doc);
 
-            new InsertNFe().Salvar(nf);
-           
+            //json string to object 
+            var obj =JsonConvert.DeserializeObject<Models.DTO.RootObject>(jsonText);
+                       
+            new InsertNFe().Salvar(obj);
+
 
             Console.ReadLine();
 

@@ -11,12 +11,15 @@ namespace XMLReader.Models.Repository
     class NFeRepository : Repository, IRepository
     {
 
-        public void insertNFe(Models.DTO.nfeProc nf)
+        public void insertNFe(Models.DTO.RootObject nf)
         {
+            int idIdentificacaoNFe;
+
+            #region INSERT_EMITENTE
             var query = @"SELECT ID FROM EMITENTE 
                             WHERE CNPJ = @CNPJ";
 
-            var idEmitente = GetConnection().Query<int>(query, new { CNPJ = nf.NFe.infNFe.emit.CNPJ }).FirstOrDefault();
+            var idEmitente = GetConnection().Query<int>(query, new { CNPJ = nf.nfeProc.NFe.infNFe.emit.CNPJ }).FirstOrDefault();
             //se não existir emitente, inclui e retorna o id
             if (idEmitente == 0)
             {
@@ -28,40 +31,52 @@ namespace XMLReader.Models.Repository
 
                 idEmitente = GetConnection().Query<int>(query, new
                 {
-                    CNPJ = nf.NFe.infNFe.emit.CNPJ,
-                    xNome = nf.NFe.infNFe.emit.xNome,
-                    xFant = nf.NFe.infNFe.emit.xFant,
-                    IE = nf.NFe.infNFe.emit.IE
+                    CNPJ = nf.nfeProc.NFe.infNFe.emit.CNPJ,
+                    xNome = nf.nfeProc.NFe.infNFe.emit.xNome,
+                    xFant = nf.nfeProc.NFe.infNFe.emit.xFant,
+                    IE = nf.nfeProc.NFe.infNFe.emit.IE
                 })
                 .FirstOrDefault();
             }
+            #endregion
 
-
-            if(idEmitente != 0)
+            if (idEmitente != 0)
             {
+                #region INSERT_NFE
+                query = @"SELECT * FROM IDENTIFICACAO_NFE
+                            WHERE EMITENTE = @EMITENTE";
+                var infoNFE = GetConnection().Query<DTO.IDENTIFICACAO_nfe>(query, new { EMITENTE = idEmitente }).FirstOrDefault();
 
-                query = @"INSERT INTO  IDENTIFICACAO_nfe VALUES (
-                             @cUF, @cNF, @natOp, @nNF, @dhEmi, @EMITENTE
-                         )
-                         SELECT SCOPE_IDENTITY()";
-
-                var idIdentificacaoNFe = GetConnection().Query<int>(query, new
+                if (infoNFE == null)
                 {
-                    cUF = long.Parse(nf.NFe.infNFe.emit.CNPJ),
-                    cNF = nf.NFe.infNFe.emit.xNome,
-                    natOp = nf.NFe.infNFe.emit.xFant,
-                    nNF = long.Parse(nf.NFe.infNFe.emit.IE),
-                    dhEmi =DateTime.Now,
-                    EMITENTE = idEmitente
 
-                })
-                .FirstOrDefault();
+                    query = @"INSERT INTO  IDENTIFICACAO_nfe VALUES (
+                                 @cUF, @cNF, @natOp, @nNF, @dhEmi, @EMITENTE
+                             )
+                             SELECT SCOPE_IDENTITY()";
 
+                    idIdentificacaoNFe = GetConnection().Query<int>(query, new
+                    {
+                        cUF = long.Parse(nf.nfeProc.NFe.infNFe.ide.cUF),
+                        cNF = nf.nfeProc.NFe.infNFe.ide.cNF,
+                        natOp = nf.nfeProc.NFe.infNFe.ide.natOp,
+                        nNF = long.Parse(nf.nfeProc.NFe.infNFe.ide.nNF),
+                        dhEmi = DateTime.Now,
+                        EMITENTE = idEmitente
+
+                    })
+                    .FirstOrDefault();
+                }
+                else
+                {
+                    idIdentificacaoNFe = infoNFE.ID;
+                }
+                #endregion
 
                 if (idIdentificacaoNFe != 0)
                 {
 
-                    #region QUERY_PRODUTO
+                    #region INSERT PRODUTOS
                     query = @"INSERT INTO  PRODUTO VALUES (
                              @cProd,
                              @cEAN,
@@ -80,9 +95,8 @@ namespace XMLReader.Models.Repository
                              @indTot,
                              @IDENTIFICACAO_nfe
                          )";
-                    #endregion
                     
-                    nf.NFe.infNFe.det.ForEach(item =>
+                    nf.nfeProc.NFe.infNFe.det.ForEach(item =>
                     {
 
                         GetConnection().Query(query, new
@@ -94,6 +108,7 @@ namespace XMLReader.Models.Repository
                             CEST = item.prod.CEST,
                             CFOP = item.prod.CFOP,
                             uCom = item.prod.uCom,
+                            qCom = item.prod.qCom,
                             vUnCom = item.prod.vUnCom,
                             vProd = item.prod.vProd,
                             cEANTrib = item.prod.cEANTrib,
@@ -106,13 +121,18 @@ namespace XMLReader.Models.Repository
                         });
                       
                     });
+                    #endregion
 
+                }
+                else
+                {
+                    //TRATAR ERRO QDO NÃO TEM ID DA NF
                 }
 
             }
             else
             {
-                // informar erro return null;
+                //TRATAR ERRO QUANDO NÃO TEM EMITENTE
             }
 
 

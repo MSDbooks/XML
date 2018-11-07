@@ -65,6 +65,7 @@
     <Compile Include="Models\DTO\IDENTIFICACAO_nfe.cs" />
     <Compile Include="Models\DTO\nfeProc.cs" />
     <Compile Include="Models\DTO\PRODUTO.cs" />
+    <Compile Include="Models\DTO\RootObject.cs" />
     <Compile Include="Models\DTO\Utils.XML.cs" />
     <Compile Include="Models\Repository\IRepository.cs" />
     <Compile Include="Models\Repository\NFeRepository.cs" />
