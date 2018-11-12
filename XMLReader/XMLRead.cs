@@ -14,28 +14,59 @@ namespace XMLReader
 {
     public class XMLRead
     {
-       
+
+        FileInfo[] files;
+        int x;
+
         public void DeserializeXML()
         {
 
-                       
-            StreamReader streamReader = new StreamReader(@"C:\xml\nfe.xml");
+            try
+            {
+
+                DirectoryInfo di = new DirectoryInfo(@"C:\xml");
+                files = di.GetFiles("*.xml");
+
+                for ( x = 0; x < files.Length; x++)
+                {
+                    using (StreamReader streamReader = new StreamReader(@"C:\xml\" + files[x]))
+                    {
+                        //remove namespace do xml
+                        string xml = Models.DTO.Utils.RemoveAllNamespaces(streamReader.ReadToEnd());
+
+                        //Convert xml to json string
+                        XmlDocument doc = new XmlDocument();
+                        doc.LoadXml(xml);
+                        string jsonText = JsonConvert.SerializeXmlNode(doc);
+
+                        //convert json string to object 
+                        var obj = JsonConvert.DeserializeObject<Models.DTO.RootObject>(jsonText);
+
+                        new InsertNFe().Salvar(obj);
+
+                    }
+
+                    File.Delete(@"C:\xml\" + files[x]);
+                    
+                }
 
 
-            //remove namespace do xml
-            string xml = Models.DTO.Utils.RemoveAllNamespaces(streamReader.ReadToEnd());
+            }
+            catch (Exception e)
+            {
 
-            //Convert xml to json string
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-            string jsonText = JsonConvert.SerializeXmlNode(doc);
+                File.AppendAllText(@"c:\temp\NFElog.txt", e.ToString());
 
-            //convert json string to object 
-            var obj =JsonConvert.DeserializeObject<Models.DTO.RootObject>(jsonText);
-                       
-            new InsertNFe().Salvar(obj);
+                if (File.Exists(@"C:\xml\" + files[x]))
+                {
+                    File.Delete(@"C:\xml\" + files[x]);
+                }
+                
+                
+            }
 
 
+            Console.WriteLine("Fim");
             Console.ReadLine();
 
         }

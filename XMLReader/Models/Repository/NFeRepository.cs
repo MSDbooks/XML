@@ -76,6 +76,8 @@ namespace XMLReader.Models.Repository
                 if (idIdentificacaoNFe != 0)
                 {
 
+
+
                     #region INSERT PRODUTOS
                     query = @"INSERT INTO  PRODUTO VALUES (
                              @cProd,
@@ -99,27 +101,39 @@ namespace XMLReader.Models.Repository
                     nf.nfeProc.NFe.infNFe.det.ForEach(item =>
                     {
 
-                        GetConnection().Query(query, new
-                        {
-                            cProd = item.prod.cProd,
-                            cEAN = item.prod.cEAN,
-                            xProd = item.prod.xProd,
-                            NCM = item.prod.NCM,
-                            CEST = item.prod.CEST,
-                            CFOP = item.prod.CFOP,
-                            uCom = item.prod.uCom,
-                            qCom = item.prod.qCom,
-                            vUnCom = item.prod.vUnCom,
-                            vProd = item.prod.vProd,
-                            cEANTrib = item.prod.cEANTrib,
-                            uTrib = item.prod.uTrib,
-                            qTrib = item.prod.qTrib,
-                            vUnTrib = item.prod.vUnTrib,
-                            indTot = item.prod.indTot,
-                            IDENTIFICACAO_nfe = idIdentificacaoNFe
+                    string qrd = @"SELECT ID FROM PRODUTO
+                                         WHERE XPROD = @XPROD AND CPROD = @CPROD AND VPROD = @VPROD AND QTRIB = @QTRIB ";
 
-                        });
-                      
+                    var itemExistente = GetConnection().Query<int>(qrd, 
+                        new {
+                                XPROD = item.prod.xProd, CPROD = item.prod.cProd, VPROD = item.prod.vProd, QTRIB = item.prod.qTrib
+                            }).FirstOrDefault();
+
+                    if (itemExistente == 0)
+                    {
+
+                        GetConnection().Query(query, new
+                            {
+                                cProd = item.prod.cProd,
+                                cEAN = item.prod.cEAN,
+                                xProd = item.prod.xProd,
+                                NCM = item.prod.NCM,
+                                CEST = item.prod.CEST,
+                                CFOP = item.prod.CFOP,
+                                uCom = item.prod.uCom,
+                                qCom = item.prod.qCom,
+                                vUnCom = item.prod.vUnCom,
+                                vProd = item.prod.vProd,
+                                cEANTrib = item.prod.cEANTrib,
+                                uTrib = item.prod.uTrib,
+                                qTrib = item.prod.qTrib,
+                                vUnTrib = item.prod.vUnTrib,
+                                indTot = item.prod.indTot,
+                                IDENTIFICACAO_nfe = idIdentificacaoNFe
+
+                            });
+                        }
+
                     });
                     #endregion
 
