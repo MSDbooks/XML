@@ -11,7 +11,24 @@ namespace XMLReader
         static void Main(string[] args)
         {
 
-            new XMLRead().DeserializeXML();
+            server.QuartzServer quartzServer;
+
+            try
+            {
+                quartzServer = new server.QuartzServer();
+                quartzServer.StartServer();
+                new server.JobCreator().CreateAllJobs(quartzServer);
+
+                System.IO.File.AppendAllText(@"c:\temp\Service.txt", string.Format(@"Serviço de sincronizãção iniciado em {0}.", DateTime.Now.ToString("dd/MM hh:mm:ss")));
+
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText(@"c:\temp\Service.txt", string.Format("Falha ao iniciar o serviço. {0}.", ex.ToString()));
+                Console.WriteLine("Falha ao iniciar o serviço. {0}.", ex.ToString());
+            }
+
+            //new XMLRead().DeserializeXML();
 
         }
     }

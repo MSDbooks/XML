@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Quartz;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,11 +13,30 @@ using System.Xml.Serialization;
 
 namespace XMLReader
 {
-    public class XMLRead
+    public class XMLRead : IJob
     {
 
         FileInfo[] files;
         int x;
+
+        public Task Execute(IJobExecutionContext context)
+        {
+            try
+            {
+
+                Console.WriteLine("iniciando serviço");
+                DeserializeXML();
+
+            }
+            catch (Exception ex)
+            {
+                File.AppendAllText(@"c:\temp\ServiceInsert.txt", ex.ToString());
+
+            }
+
+            return null;
+        }
+
 
         public void DeserializeXML()
         {
